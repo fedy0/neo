@@ -29,7 +29,7 @@ source ~/.bashrc
 ## Build Design
 Plug the USB1 of ULX3S Board to your PC, then run:
 ```bash
-git clone https://github.com/fedy0/neo.git && cd neo
+git clone --recursive https://github.com/fedy0/neo.git && cd neo
 make flash
 ```
 This will perform the systhesis, place and route, constrain mapping, bitstream generation and upload
