@@ -25,7 +25,7 @@ tar xvzf oss-cad-suite-linux-riscv64-20231001.tgz -C /opt/oss-cad-suite
 export PATH="$PATH:/opt/oss-cad-suite/bin" >> ~/.bashrc
 source ~/.bashrc
 ```
-<br>
+
 ## Test
 Plug the USB1 of ULX3S Board to your PC, then run:
 ```bash
