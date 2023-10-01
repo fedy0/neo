@@ -1,0 +1,40 @@
+TOP := neorv32_ULX3S_BoardTop_MinimalBoot
+PIN_DEF := ULX3S.lpf
+DEVICE ?= 85k
+BUILDDIR = bin
+NEORV32_SRC := $(wildcard ./neorv32/rtl/core/*.vhd)
+BOARD_SRC := ./top/ecp5_components.vhd ./top/neorv32_ULX3S_BoardTop_MinimalBoot.vhd
+DESIGN_SRC := ./neorv32/rtl/processor_templates/neorv32_ProcessorTop_MinimalBoot.vhd
+NEORV32_MEM_SRC := ./neorv32/rtl/core/mem/neorv32_imem.default.vhd ./neorv32/rtl/core/mem/neorv32_dmem.default.vhd
+
+VHDL = ${BOARD_SRC} ${DESIGN_SRC} ${NEORV32_SRC} ${NEORV32_MEM_SRC}
+
+
+.DEFAULT_GOAL := compile
+
+compile: $(BUILDDIR)/toplevel.bit
+
+prog: $(BUILDDIR)/toplevel.bit
+	fujprog $^
+
+flash: $(BUILDDIR)/toplevel.bit
+	fujprog -j flash $^
+
+$(BUILDDIR)/toplevel.json: ${VHDL}
+	mkdir -p $(BUILDDIR)
+	yosys -m ghdl \
+	-p "ghdl --std=08 --ieee=synopsys --work=neorv32 ${VHDL} -e ${TOP}" \
+	-p "hierarchy -top ${TOP}" \
+	-p "synth_ecp5 -json $@"
+
+$(BUILDDIR)/%.config: $(PIN_DEF) $(BUILDDIR)/toplevel.json
+	 nextpnr-ecp5 --${DEVICE} --package CABGA381 --freq 25 --textcfg  $@ --json $(filter-out $<,$^) --lpf $< 
+
+$(BUILDDIR)/toplevel.bit: $(BUILDDIR)/toplevel.config
+	ecppack --compress $^ $@
+
+clean:
+	rm -rf ${BUILDDIR}
+
+.SECONDARY:
+.PHONY: compile clean prog flash
