@@ -26,10 +26,20 @@ export PATH="$PATH:/opt/oss-cad-suite/bin" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Test
+## Build Design
 Plug the USB1 of ULX3S Board to your PC, then run:
 ```bash
 git clone https://github.com/fedy0/neo.git && cd neo
 make flash
+```
+This will perform the systhesis, place and route, constrain mapping, bitstream generation and upload
+
+## Test
+Press any key to invoke the bootloader, then select 'u' to upload and 'e' to execute
+```bash
+cd ./neorv32/sw/example/hello_world
+make all
+../../image_gen/image_gen -app_bin main.bin hello.bin
+sudo sh ../../image_gen/uart_upload.sh /dev/ttyUSB0 hello.bin
 ```
 ![Build](./images/helloworld.png)
