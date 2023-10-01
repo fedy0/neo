@@ -8,7 +8,7 @@ Install the [RISC-V toolchain](https://github.com/riscv-collab/riscv-gnu-toolcha
 The script below is for linux installation only.
 <br>
 ```bash
-#For RISC-V
+# For RISC-V
 mkdir risc-v
 cd risc-v
 git clone https://github.com/riscv/riscv-gnu-toolchain
@@ -18,7 +18,7 @@ make linux
 export PATH="$PATH:/opt/riscv/bin" >> ~/.bashrc
 source ~/.bashrc
 
-#For OSS-CAD-SUITE
+# For OSS-CAD-SUITE
 mkdir /opt/oss-cad-suite
 curl https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2023-10-01/oss-cad-suite-linux-riscv64-20231001.tgz
 tar xvzf oss-cad-suite-linux-riscv64-20231001.tgz -C /opt/oss-cad-suite
@@ -35,11 +35,13 @@ make flash
 This will perform the systhesis, place and route, constrain mapping, bitstream generation and upload
 
 ## Test
-Press any key to invoke the bootloader, then select 'u' to upload and 'e' to execute
+To test, run the following command. Press any key to invoke the bootloader menu, then select 'u' to upload and 'e' to execute
 ```bash
 cd ./neorv32/sw/example/hello_world
 make all
 ../../image_gen/image_gen -app_bin main.bin hello.bin
 sudo sh ../../image_gen/uart_upload.sh /dev/ttyUSB0 hello.bin
+sudo apt install gtkterm
+gtkterm --port /dev/ttyUSB0 --speed 19200
 ```
 ![Build](./images/helloworld.png)
