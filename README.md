@@ -1,5 +1,5 @@
 # neo
-NEORV32 on ULX3S
+[NEORV32](https://github.com/stnolting/neorv32) on [ULX3S](https://www.crowdsupply.com/radiona/ulx3s)
 <br><br>
 
 ## Prerequisites
