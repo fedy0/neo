@@ -12,16 +12,16 @@ The script below is for linux installation only.
 mkdir risc-v
 cd risc-v
 git clone https://github.com/riscv/riscv-gnu-toolchain
-mkdir /opt/riscv
+sudo mkdir /opt/riscv
 ./configure --prefix=/opt/riscv
 make linux
 export PATH="$PATH:/opt/riscv/bin" >> ~/.bashrc
 source ~/.bashrc
 
 # For OSS-CAD-SUITE
-mkdir /opt/oss-cad-suite
-curl https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2023-10-01/oss-cad-suite-linux-riscv64-20231001.tgz
-tar xvzf oss-cad-suite-linux-riscv64-20231001.tgz -C /opt/oss-cad-suite
+curl -L https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2023-10-01/oss-cad-suite-linux-riscv64-20231001.tgz > oss-cad-suite
+sudo tar xzf oss-cad-suite-linux-riscv64-20231001.tgz -C /opt
+rm -rf oss-cad-suite
 export PATH="$PATH:/opt/oss-cad-suite/bin" >> ~/.bashrc
 source ~/.bashrc
 ```
