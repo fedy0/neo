@@ -38,9 +38,8 @@ This will perform the systhesis, place and route, constrain mapping, bitstream g
 To test, run the following command. Press any key to invoke the bootloader menu, then select 'u' to upload and 'e' to execute
 ```bash
 cd ./neorv32/sw/example/hello_world
-make all
-../../image_gen/image_gen -app_bin main.bin hello.bin
-sudo sh ../../image_gen/uart_upload.sh /dev/ttyUSB0 hello.bin
+make exe
+sudo sh ../../image_gen/uart_upload.sh /dev/ttyUSB0 neorv32_exe.bin
 sudo apt install gtkterm
 gtkterm --port /dev/ttyUSB0 --speed 19200
 ```
