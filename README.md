@@ -12,6 +12,7 @@ The script below is for linux installation only.
 mkdir risc-v
 cd risc-v
 git clone https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain/
+sudo apt install gcc gawk -y #If not already installed
 sudo mkdir /opt/riscv
 ./configure --prefix=/opt/riscv
 make linux
