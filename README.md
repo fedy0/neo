@@ -11,7 +11,7 @@ The script below is for linux installation only.
 # For RISC-V
 mkdir risc-v
 cd risc-v
-git clone https://github.com/riscv/riscv-gnu-toolchain
+git clone https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain/
 sudo mkdir /opt/riscv
 ./configure --prefix=/opt/riscv
 make linux
