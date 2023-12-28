@@ -9,7 +9,7 @@ The script below is for linux installation only.
 <br>
 ```bash
 # For RISC-V
-sudo apt-get install -y gcc autoconf textinfo automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev python3
+sudo apt-get install -y gcc autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev python3
 mkdir risc-v && cd risc-v
 git clone https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain/
 sudo mkdir /opt/riscv
