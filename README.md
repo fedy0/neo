@@ -15,14 +15,14 @@ git clone https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain
 sudo mkdir /opt/riscv
 ./configure --prefix=/opt/riscv --enable-multilib
 sudo make -j$(nproc) linux
-echo "export PATH=\"\$PATH:/opt/riscv/bin\"" >> ~/.bashrc
+echo 'export PATH=$PATH:/opt/riscv/bin' >> ~/.bashrc
 source ~/.bashrc
 
 # For OSS-CAD-SUITE
 curl -L https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2023-10-01/oss-cad-suite-linux-riscv64-20231001.tgz > oss-cad-suite
 sudo tar xzf oss-cad-suite-linux-riscv64-20231001.tgz -C /opt
 rm -rf oss-cad-suite
-export PATH="$PATH:/opt/oss-cad-suite/bin" >> ~/.bashrc
+echo 'export PATH=$PATH:/opt/oss-cad-suite/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
 
