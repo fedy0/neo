@@ -13,8 +13,8 @@ sudo apt-get install -y gcc autoconf textinfo automake autotools-dev curl libmpc
 mkdir risc-v && cd risc-v
 git clone https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain/
 sudo mkdir /opt/riscv
-./configure --prefix=/opt/riscv
-sudo make linux
+./configure --prefix=/opt/riscv --enable-multilib
+sudo make -j$(nproc) linux
 export PATH="$PATH:/opt/riscv/bin" >> ~/.bashrc
 source ~/.bashrc
 
