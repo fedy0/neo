@@ -76,7 +76,8 @@ begin
   generic map (
     CLOCK_FREQUENCY   => f_clock_c, -- clock frequency of clk_i in Hz
     MEM_INT_IMEM_SIZE => 16*1024,
-    MEM_INT_DMEM_SIZE => 8*1024
+    MEM_INT_DMEM_SIZE => 8*1024,
+    IO_GPIO_NUM => 4
   )
   port map (
     -- Global control --

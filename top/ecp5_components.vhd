@@ -72,4 +72,12 @@ package components is
   );
   end component;
 
+  component USRMCLK is
+    port (
+      USRMCLKI  : in  std_logic;
+      USRMCLKTS : in  std_logic
+    );
+  end component;
+  
+
 end package;

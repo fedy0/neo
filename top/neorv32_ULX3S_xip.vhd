@@ -54,7 +54,7 @@ entity neorv32_ULX3S_xip is
     ULX3S_TX : out std_logic;
     -- XIP Flash
     flash_csn : out std_logic;
-    flash_clk : out std_logic;
+    --sflash_clk : out std_logic;
     flash_mosi: out std_logic;
     flash_miso: in std_logic
   );
@@ -62,14 +62,29 @@ end entity;
 
 architecture neorv32_ULX3S_xip_rtl of neorv32_ULX3S_xip is
 
+    -- Component Declaration for USRMCLK
+    component USRMCLK is
+      port (
+        USRMCLKI  : in  std_logic;
+        USRMCLKTS : in  std_logic
+      );
+    end component;
+
   -- configuration --
   constant f_clock_c : natural := 25000000; -- clock frequency in Hz
 
   -- internal IO connection --
   signal con_gpio_o : std_ulogic_vector(63 downto 0);
+  signal spi_con : std_logic := '1';
+  signal flash_clk : std_logic;
 
 begin
-
+  -- Component Instantiation of USRMCLK
+  u1: USRMCLK
+    port map (
+      USRMCLKI  => flash_clk,
+      USRMCLKTS => spi_con
+    );
   -- The core of the problem ----------------------------------------------------------------
   -- -------------------------------------------------------------------------------------------
   neorv32_inst: entity neorv32.neorv32_top
@@ -116,5 +131,7 @@ begin
   ULX3S_LED1 <= con_gpio_o(1);
   ULX3S_LED2 <= con_gpio_o(2);
   ULX3S_LED3 <= con_gpio_o(3);
+
+  --spi_con <= std_ulogic(1);
 
 end architecture;
