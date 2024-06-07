@@ -78,6 +78,10 @@ architecture neorv32_ULX3S_xip_rtl of neorv32_ULX3S_xip is
   signal spi_con : std_logic := '1';
   signal flash_clk : std_logic;
 
+  signal xbridge: std_ulogic_vector(3 downto 0);
+  signal sbridge: std_ulogic_vector(3 downto 0);
+  signal spi_csn: std_ulogic_vector(7 downto 0);
+
 begin
   -- Component Instantiation of USRMCLK
   u1: USRMCLK
@@ -103,7 +107,10 @@ begin
     IO_UART0_EN       => true,      -- implement primary universal asynchronous receiver/transmitter (UART0)?
     
     XIP_EN            => true,      -- implements execute in place module (XIP)
-    XIP_CACHE_EN      => true       -- implements XIP cache
+    XIP_CACHE_EN      => true,      -- implements XIP cache
+    
+    IO_SPI_EN         => true,      -- implement serial peripheral interface (SPI)?
+    IO_SPI_FIFO       => 2**15
   )
   port map (
     -- Global control --
@@ -118,11 +125,15 @@ begin
     uart0_rxd_i => ULX3S_RX, -- UART0 receive data
 
     -- XIP (execute in place via SPI) signals (available if XIP_EN = true) --
-    xip_csn_o  => flash_csn,  -- chip-select, low-active
-    xip_clk_o  => flash_clk,  -- serial clock
-    xip_dat_i  => flash_miso, -- device data input
-    xip_dat_o  => flash_mosi  -- controller data output
-
+    xip_csn_o  => xbridge(0), -- chip-select, low-active
+    xip_clk_o  => xbridge(1), -- serial clock
+    xip_dat_i  => xbridge(2), -- device data input
+    xip_dat_o  => xbridge(3), -- controller data output
+    
+    spi_csn_o  => spi_csn, -- SPI CS
+    spi_clk_o  => sbridge(1), -- SPI serial clock
+    spi_dat_i  => sbridge(2), -- controller data in, peripheral data out
+    spi_dat_o  => sbridge(3)  -- controller data out, peripheral data in
   );
 
   -- IO Connection --------------------------------------------------------------------------
@@ -131,7 +142,11 @@ begin
   ULX3S_LED1 <= con_gpio_o(1);
   ULX3S_LED2 <= con_gpio_o(2);
   ULX3S_LED3 <= con_gpio_o(3);
-
-  --spi_con <= std_ulogic(1);
+  
+  flash_csn  <= spi_csn(0) and xbridge(0);
+  flash_clk  <= sbridge(1) when (spi_csn(0) = '0') else xbridge(1);
+  flash_mosi <= sbridge(3)  when (spi_csn(0) = '0') else xbridge(3);
+  xbridge(2) <= flash_miso;
+  sbridge(2) <= flash_miso;
 
 end architecture;
